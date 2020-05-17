@@ -43,7 +43,7 @@ function getComposition(f, g) {
  *
  */
 function getPowerFunction(exponent) {
-  return function (el) {
+  return function fun(el) {
     return el ** exponent;
   };
 }
@@ -62,7 +62,7 @@ function getPowerFunction(exponent) {
  *   getPolynom()      => null
  */
 function getPolynom(...args) {
-  return function (el) {
+  return function fun(el) {
     if (args.length === 1) return args[0];
     if (args.length === 2) return args[0] * el + args[1];
     if (args.length === 3) return args[0] * el * el + args[1] * el + args[2];
