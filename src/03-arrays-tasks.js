@@ -44,46 +44,16 @@ function getStringsLength(arr) {
   return result;
 }
 
-/**
- * Inserts the item into specified array at specified index
- *
- * @param {array} arr
- * @param {any} item
- * @param {number} index
- *
- * @example
- *    [ 1, 3, 4, 5 ], 2, 1  => [ 1, 2, 3, 4, 5 ]
- *    [ 1, 'b', 'c'], 'x',0  => [ 'x', 1, 'b', 'c' ]
- */
 function insertItem(arr, item, index) {
-  const result = [];
-  for (let i = 0; i <= arr.length; i += 1) {
-    const el = arr[i];
-    if (index === i) {
-      result.push(item);
-    } else {
-      result.push(el);
-    }
-  }
-  return result;
+  return arr.splice(index, 0, item);
 }
 
 function getHead(arr, n) {
   return arr.splice(0, n);
 }
 
-/**
- * Returns the n last items of the specified array
- *
- * @param {array} arr
- * @param {number} n
- *
- * @example
- *    [ 1, 3, 4, 5 ], 2  => [ 4, 5 ]
- *    [ 'a', 'b', 'c', 'd'], 3  => [ 'b', 'c', 'd' ]
- */
 function getTail(arr, n) {
-  return arr.splice(n + 1);
+  return arr.slice(-n);
 }
 
 /**
@@ -114,22 +84,13 @@ function toArrayOfSquares(arr) {
   return arr.map((el) => el ** 2);
 }
 
-/**
- * Transforms the numeric array to the according moving sum array:
- *     f[n] = x[0] + x[1] + x[2] +...+ x[n]
- *  or f[n] = f[n-1] + x[n]
- *
- * @param {array} arr
- * @return {array}
- *
- * Example :
- *   [ 1, 1, 1, 1, 1 ]        => [ 1, 2, 3, 4, 5 ]
- *   [ 10, -10, 10, -10, 10 ] => [ 10, 0, 10, 0, 10 ]
- *   [ 0, 0, 0, 0, 0]         => [ 0, 0, 0, 0, 0]
- *   [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ] => [ 1, 3, 6, 10, 15, 21, 28, 36, 45, 55 ]
- */
-function getMovingSum(/* arr */) {
-  throw new Error();
+function getMovingSum(arr) {
+  let acc = 0;
+  return arr.map((el) => {
+    const res = el + acc;
+    acc += el;
+    return res;
+  });
 }
 
 function getSecondItems(arr) {
@@ -160,22 +121,9 @@ function getPositivesCount(arr) {
   return result;
 }
 
-/**
- * Sorts digit names
- *
- * @param {array} arr
- * @return {array}
- *
- * @example
- *   [] => []
- *   [ 'nine','one' ]                 => [ 'one', 'nine' ]
- *   [ 'one','two','three' ]          => [ 'one','two', 'three' ]
- *   [ 'nine','eight','nine','eight'] => [ 'eight','eight','nine','nine']
- *   [ 'one','one','one','zero' ]     => [ 'zero','one','one','one' ]
- */
 function sortDigitNamesByNumericOrder(arr) {
-  // const number = ["zero", "one", "two", "three", "eight", "nine"];
-  return arr;
+  const names = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine'];
+  return arr.sort((a, b) => names.indexOf(a) - names.indexOf(b));
 }
 
 function getItemsSum(arr) {
@@ -192,20 +140,6 @@ function getFalsyValuesCount(arr) {
   return result;
 }
 
-/**
- * Returns a number of all occurences of the specified item in an array
- *
- * @param {array} arr
- * @param {any} item
- * @return {number}
- *
- * @example
- *    [ 0, 0, 1, 1, 1, 2 ], 1 => 3
- *    [ 1, 2, 3, 4, 5 ], 0 => 0
- *    [ 'a','b','c','c' ], 'c'=> 2
- *    [ null, undefined, null ], null => 2
- *    [ true, 0, 1, 'true' ], true => 1
- */
 function findAllOccurences(arr, item) {
   let result = 0;
   arr.forEach((el) => {
@@ -216,17 +150,6 @@ function findAllOccurences(arr, item) {
   return result;
 }
 
-/**
- * Concatenates all elements from specified array into single string with ',' delimeter
- *
- * @param {array} arr
- * @return {string}
- *
- * @example
- *    [0, false, 'cat', NaN, true, '']  => '0,false,cat,NaN,true,'
- *    [1, 2, 3, 4, 5]                   => '1,2,3,4,5'
- *    ['rock', 'paper', 'scissors']     => 'rock,paper,scissors'
- */
 function toStringList(arr) {
   return arr.join(',');
 }
@@ -291,17 +214,6 @@ function getIntervalArray(start, end) {
   return result;
 }
 
-/**
- * Returns array containing only unique values from the specified array.
- *
- * @param {array} arr
- * @return {array}
- *
- * @example
- *   [ 1, 2, 3, 3, 2, 1 ] => [ 1, 2, 3 ]
- *   [ 'a', 'a', 'a', 'a' ]  => [ 'a' ]
- *   [ 1, 1, 2, 2, 3, 3, 4, 4] => [ 1, 2, 3, 4]
- */
 function distinct(arr) {
   const result = [];
   for (let i = 0; i < arr.length; i += 1) {
@@ -360,8 +272,9 @@ function group(/* array, keySelector, valueSelector */) {
  *   [[1, 2], [3, 4], [5, 6]], (x) => x     =>   [ 1, 2, 3, 4, 5, 6 ]
  *   ['one','two','three'], x=>x.split('')  =>   ['o','n','e','t','w','o','t','h','r','e','e']
  */
-function selectMany(/* arr, childrenSelector */) {
-  throw new Error();
+function selectMany(arr, childrenSelector) {
+  const result = arr.map(childrenSelector);
+  return [].concat(...result);
 }
 
 /**
@@ -376,8 +289,13 @@ function selectMany(/* arr, childrenSelector */) {
  *   ['one','two','three'], [2]       => 'three'  (arr[2])
  *   [[[ 1, 2, 3]]], [ 0, 0, 1 ]      => 2        (arr[0][0][1])
  */
-function getElementByIndexes(/* arr, indexes */) {
-  throw new Error();
+function getElementByIndexes(arr, indexes) {
+  let result = arr;
+  indexes.map((el) => {
+    result = result[el];
+    return null;
+  });
+  return result;
 }
 
 /**
